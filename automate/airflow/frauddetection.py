@@ -59,6 +59,9 @@ default_args = {
     'retry_delay': dt.timedelta(minutes=5),
 }
 
+#docker run -v c:/test:/test alpine ls /test
+#docker run -it -v c:/test:/test alpine /bin/sh
+
 
 with DAG(DAG_NAME,
          default_args=default_args,

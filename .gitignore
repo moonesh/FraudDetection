@@ -11,6 +11,7 @@ buildNumber.properties
 .cache-main
 .project
 src/main/resources/spark/training
+/build-files
 /bin/
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 

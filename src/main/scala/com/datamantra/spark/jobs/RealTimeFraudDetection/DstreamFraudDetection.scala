@@ -27,6 +27,20 @@ import scala.collection.mutable.Map
  * Created by kafka on 9/6/18.
  */
 object DstreamFraudDetection extends SparkJob("Fraud Detection using Dstream"){
+  
+  
+  
+  
+  //
+  //1. Initially we have 2 Data Sets - Customer and Transactions Tables. These Transaction table is having all the Fraud & Non Fraud Data classified based on Actuals (Not Predicted)
+  //2. Customer is stored directly in Cassandra Customer Table while Transcation is Split into 2 Tables Fraud-Txn and Non-Fraud Txn(Age & Distance fields are added in both Txn Tables using help of Customer Table)
+  //3. The above 2 Transaction Tables are used for Predictions Only. The Model is Created Using  these Transaction Tables
+  //4. The Realtime TRANSACTIONS are then checked and validated using this Model and basis prediction goes to one of them.
+  //5. The Fraud Predictions are displayed on Dashboard using the Fraud  Transcation Prediction Table.
+  //6. Note: These are just predictions once actuals are confirmed the INtiall Transaction data is again used to create Model - so to have robust and slowly trained Model.
+  //7. The Ideal situation would be when the Predicted Fraud Transactions and Actually Fraud (or to nearest accuracy) 
+  
+  
 
   val logger = Logger.getLogger(getClass.getName)
 
@@ -35,6 +49,9 @@ object DstreamFraudDetection extends SparkJob("Fraud Detection using Dstream"){
     Config.parseArgs(args)
 
     import sparkSession.implicits._
+    
+     System.setProperty("hadoop.home.dir", "C:\\data\\CreditCardFraud");
+
     val customerDF = DataReader.readFromCassandra(CassandraConfig.keyspace, CassandraConfig.customer)
     val customerAgeDF = customerDF.withColumn("age", (datediff(current_date(),to_date($"dob"))/365).cast(IntegerType))
     customerAgeDF.cache()

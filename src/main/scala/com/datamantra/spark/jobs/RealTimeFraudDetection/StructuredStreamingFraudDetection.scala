@@ -15,7 +15,7 @@ import org.apache.spark.sql.types._
 /**
  * Created by kafka on 14/5/18.
  */
-object StructuredStreamingFraudDetection extends SparkJob("Structured Streaming Job to detect fraud transaction"){
+object StructuredStreamingFraudDetection1 extends SparkJob("Structured Streaming Job to detect fraud transaction"){
 
   val logger = Logger.getLogger(getClass.getName)
 

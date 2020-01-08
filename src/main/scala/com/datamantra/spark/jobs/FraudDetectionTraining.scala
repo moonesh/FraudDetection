@@ -22,6 +22,9 @@ object FraudDetectionTraining extends SparkJob("Balancing Fraud & Non-Fraud Data
     Config.parseArgs(args)
 
     import sparkSession.implicits._
+    
+     System.setProperty("hadoop.home.dir", "C:\\data\\CreditCardFraud");
+
 
     val fraudTransactionDF = DataReader.readFromCassandra(CassandraConfig.keyspace, CassandraConfig.fraudTransactionTable)
       .select("cc_num" , "category", "merchant", "distance", "amt", "age", "is_fraud")
